@@ -14,19 +14,11 @@ function Card ({data}){
         context.setProductData(productData)
     }
     
-  
-    
-    function addProductsToCart(productData) {
-        
-         
+    function addProductsToCart(productData) { 
 
-        // 
         context.setCount(context.count +1)
-        
-        // context.setCartProducts([...context.cartProducts, productData]) //WORKING AS INTENDED
-        
+                
         context.setProductCount(context.productCount + 1)
-
 
         context.setCartProducts(()=>{
             const isProductInCart = context.cartProducts.some((item)=>item.id === productData.id)
@@ -49,6 +41,8 @@ function Card ({data}){
         })
     }
 
+
+    
     return(
         <div 
         className="bg-white cursor-pointer w-56 h-[290px] overflow-hidden p-2 hover:bg-slate-300 hover:rounded-lg"

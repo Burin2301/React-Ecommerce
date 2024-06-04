@@ -55,8 +55,7 @@ export const ShoppingCartProvider = ({children}) => {
             closeShoppingCart,
 
             productCount,
-            setProductCount
-
+            setProductCount,
         
         }} >
             {children}
