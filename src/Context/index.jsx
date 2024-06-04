@@ -28,8 +28,10 @@ export const ShoppingCartProvider = ({children}) => {
     const [cartOpen, setCartOpen] = useState(false)
 
     const openShoppingCart = () => setCartOpen(true)
-    const closeShoppingCart = () => setCartOpen(false
-    ) 
+    const closeShoppingCart = () => setCartOpen(false) 
+
+    // FOR PRODUCT COUNTER IN SHOPPING CART
+    const [productCount, setProductCount] = useState(0)
 
  
     return(
@@ -51,6 +53,11 @@ export const ShoppingCartProvider = ({children}) => {
             cartOpen,
             openShoppingCart,
             closeShoppingCart,
+
+            productCount,
+            setProductCount
+
+        
         }} >
             {children}
         </ShoppingCartContext.Provider>

@@ -16,12 +16,6 @@ const OrderCard = ({item}) =>{
         context.setCartProducts(newItems)
     }
 
-    console.log('CART', item);
-
-    // STATE FOR COUNT OF AMOUNT OF ITEMS
-    
-
-    
 
     return(
 
@@ -34,10 +28,10 @@ const OrderCard = ({item}) =>{
             </span>
             
             <span>
-                2
+                {item.quantity}
             </span>
         </div>
-        <span className='text-sm w-[80px] text-center'>${item.price * 2}</span>
+        <span className='text-sm w-[80px] text-center'>${item.price * item.quantity}</span>
         <XMarkIcon 
             className=' w-[20px] cursor-pointer'
             onClick={()=>deleteItemfromCart()} />               
