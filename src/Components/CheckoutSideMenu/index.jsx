@@ -4,15 +4,12 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ShoppingCartContext } from '../../Context'
 import OrderCard from '../OrderCard'
 import { totalPrice } from '../../utils'
+// import { totalPrice } from '../../utils'
 
 const CheckoutSideMenu = () =>{
 
     const context = useContext(ShoppingCartContext)
-
-    const productList = context.cartProducts
-
-    console.log(productList);
-    console.log(totalPrice(context.cartProducts));
+    
 
     return(
         <aside className={` ${context.cartOpen?"flex":"hidden"} checkout-side-menu flex-col fixed bg-white right-4 border border-black rounded-lg p-4 overflow-scroll` } >            
@@ -24,7 +21,7 @@ const CheckoutSideMenu = () =>{
              </div>
 
              {
-                productList.map((item, index) =>(
+                context.cartProducts.map((item, index) =>(
 
                     <OrderCard
                     key={index}
@@ -42,7 +39,7 @@ const CheckoutSideMenu = () =>{
 
                 <span
                     className='w-[30%] text-end'>
-                    $0
+                    ${totalPrice(context.cartProducts)}
                 </span>
              </div>
 
