@@ -22,7 +22,7 @@ const OrderCard = ({item}) =>{
     <div className='flex justify-between p-2 items-center hover:bg-slate-300 hover:rounded-lg'>
        
         <span className='text-xs overflow-hidden w-[180px]'>{item.title}</span>
-        <div className='text-sm w-[20px] flex flex-col items-center'>
+        <div className='text-xs w-[20px] flex flex-col items-center'>
             <span className='text-[.50rem]'>
                 Amount
             </span>
