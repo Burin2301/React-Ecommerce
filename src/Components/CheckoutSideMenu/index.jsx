@@ -3,18 +3,24 @@ import './Styles.css'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ShoppingCartContext } from '../../Context'
 import OrderCard from '../OrderCard'
-import { totalPrice } from '../../utils'
-// import { totalPrice } from '../../utils'
+import { getDate, totalPrice } from '../../utils'
+import { Link } from 'react-router-dom'
+
 
 const CheckoutSideMenu = () =>{
 
     const context = useContext(ShoppingCartContext)
 
+    const productList = context.cartProducts
+
     const handleCheckout = () =>{
+
+        
+
         const orderToAdd = {
-            date:'01/01/2024',
+            date: getDate(),
             products: context.cartProducts,
-            totalProducts: context.cartProducts.lenght,
+            totalProducts: context.cartProducts.length ,
             totalOrder: totalPrice(context.cartProducts)
         }
 
@@ -37,12 +43,13 @@ const CheckoutSideMenu = () =>{
 
              <div className='overflow-y-auto flex flex-col '>
              {
-                context.cartProducts.lenght >1 ? <p>Try adding something to your cart!.</p> : 
-                context.cartProducts.map((item, index) =>(
+                context.cartProducts.length <1 ? <p>Try adding something to your cart!.</p> : 
+                context.cartProducts.map((item, index ) =>(
 
                     <OrderCard
                     key={index}
-                    item={item}  />
+                    item={item}
+                    handleDelete={()=>context.deleteItemfromCart(index, productList)}  />
 
                 ))
              }
@@ -65,12 +72,16 @@ const CheckoutSideMenu = () =>{
                     </span>
                 </div>
 
+                <Link
+                to={"/my-orders/last"}>
+                    <button 
+                        className={`w-full bg-blue-500 text-white py-2 rounded-lg m-2  ${context.cartProducts.length < 1 ? 'opacity-50 cursor-not-allowed' : ''} `}
+                        onClick={()=>handleCheckout()} >
+                            Checkout
+                    </button>
+                
+                </Link>
             
-                <button 
-                className={`w-full bg-blue-500 text-white py-2 rounded-lg m-2  ${context.cartProducts.length < 1 ? 'opacity-50 cursor-not-allowed' : ''} `}
-                onClick={()=>handleCheckout()} >
-                    Checkout
-                </button>
              </div>
 
              

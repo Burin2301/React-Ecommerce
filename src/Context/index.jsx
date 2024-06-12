@@ -36,6 +36,14 @@ export const ShoppingCartProvider = ({children}) => {
     // Shopping Cart => To Otder
     const [order, setOrder] = useState([])
 
+
+    // To delete items from Cart
+    const deleteItemfromCart = (index, productList) =>{
+        const newItems = [...productList]
+        newItems.splice(index,1)
+        setCartProducts(newItems)
+    }
+
  
     return(
         <ShoppingCartContext.Provider
@@ -62,6 +70,8 @@ export const ShoppingCartProvider = ({children}) => {
 
             order,
             setOrder,
+
+            deleteItemfromCart,
         
         }} >
             {children}

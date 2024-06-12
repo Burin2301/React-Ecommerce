@@ -1,21 +1,16 @@
 /* eslint-disable react/prop-types */
 
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { useContext } from 'react'
-import { ShoppingCartContext } from '../../Context'
 
-const OrderCard = ({item}) =>{
+const OrderCard = ({item, handleDelete}) =>{
 
-    const context = useContext(ShoppingCartContext)
+    let isDeleteSent
 
-    const productList = context.cartProducts
-
-    const deleteItemfromCart = (index) =>{
-        const newItems = [...productList]
-        newItems.splice(index,1)
-        context.setCartProducts(newItems)
-    }
-
+    if( handleDelete ) {
+        isDeleteSent = <XMarkIcon 
+        className='w-[20px] cursor-pointer '
+        onClick={handleDelete} />
+    } 
 
     return(
 
@@ -32,9 +27,7 @@ const OrderCard = ({item}) =>{
             </span>
         </div>
         <span className='text-sm w-[80px] text-center'>${item.price * item.quantity}</span>
-        <XMarkIcon 
-            className=' w-[20px] cursor-pointer'
-            onClick={()=>deleteItemfromCart()} />               
+        {isDeleteSent}               
     </div>
     )
 }
