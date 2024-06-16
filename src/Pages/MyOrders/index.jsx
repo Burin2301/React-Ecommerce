@@ -3,39 +3,41 @@ import Layout from "../../Components/Layout"
 import OrdersCard from "../../Components/OrdersCard"
 import { ShoppingCartContext } from "../../Context"
 import { Link } from "react-router-dom"
-import { ArrowUturnLeftIcon } from "@heroicons/react/24/outline"
 
 
 function MyOrders(){
 
     const context = useContext(ShoppingCartContext)
 
+    console.log(context.order);
+
     return(
         <div>
             <Layout >
-                <div className="flex w-[150px] justify-between items-center">
-                    <Link
-                        to={'my-orders'}>
-                        <ArrowUturnLeftIcon
-                        className="size-8 cursor-pointer" />
-                    </Link>
-                    <h1>My Orders</h1>
+                <div className="flex flex-col">
+
+                    <div className="flex flex-col w-[150px] justify-between items-center">
+                        
+                        <h1>My Orders</h1>
+                    </div>
+
+                    {
+                        context.order.map((order, index)=>(
+                            <Link
+                                to={`/my-orders/${index}`}
+                                key={index}>
+
+                                <OrdersCard
+                                date={order.date}
+                                totalPrice={order.totalOrder}
+                                totalProducts={order.totalProducts}
+                                />
+                            </Link>
+                        ))
+                    }
+
                 </div>
-
-                {
-                    context.order.map((order, index)=>{
-                        <Link
-                            to={`my-orders/${order.id}`}
-                            key={index}>
-
-                            <OrdersCard
-                            totalPrice={order.totalOrder}
-                            totalProducts={order.totalProducts}
-                            />
-                        </Link>
-
-                    })
-                }
+                
 
             </Layout>
         </div>
