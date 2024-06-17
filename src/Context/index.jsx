@@ -1,11 +1,22 @@
 /* eslint-disable react/prop-types */
 
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 
 const ShoppingCartContext = createContext()
 
 export const ShoppingCartProvider = ({children}) => {
+
+    //Get Items for Store
+    const [items, setItems] = useState(null)
+
+    useEffect(()=>{
+        fetch('https://fakestoreapi.com/products')
+        .then(response => response.json())
+        .then(data => setItems(data))
+    },[])
+
+
 
     // Counts the amount of items in shoppincart
     const [count, setCount] = useState(0)
@@ -72,6 +83,9 @@ export const ShoppingCartProvider = ({children}) => {
             setOrder,
 
             deleteItemfromCart,
+
+            items,
+            setItems
         
         }} >
             {children}

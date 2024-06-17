@@ -23,11 +23,11 @@ export const getDate = () =>{
 
     const today = new Date()
 
-    const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
+    // const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
 
     const date = today.getDay() + '/' + ((today.getMonth()+1)) + '/' + today.getFullYear() 
 
-    let fullDate = date + ' ' + time
+    let fullDate = date // + ' ' + time
     
     return  fullDate
 

@@ -1,22 +1,17 @@
 /* eslint-disable react/prop-types */
 
-import { useState, useEffect } from "react"
 import Card from "../../Components/Card"
 import Layout from "../../Components/Layout"
 import ProductDetail from "../../Components/ProductDetail"
 import CheckoutSideMenu from "../../Components/CheckoutSideMenu"
+import { ShoppingCartContext } from "../../Context"
+import { useContext } from "react"
 
 
 
 function Home(){
 
-    const [items, setItems] = useState(null)
-
-    useEffect(()=>{
-        fetch('https://fakestoreapi.com/products')
-        .then(response => response.json())
-        .then(data => setItems(data))
-    },[])
+   const context = useContext(ShoppingCartContext) 
 
     return(
         <div>
@@ -24,7 +19,7 @@ function Home(){
                 
                 <div className="grid place-items-center gap-4 grid-cols-3 w-full max-w-screen-lg p-2">
                     {
-                        items?.map((item)=>(
+                        context.items?.map((item)=>(
                             <Card
                             key={item.id}
                             data={item} />
