@@ -10,11 +10,50 @@ export const ShoppingCartProvider = ({children}) => {
     //Get Items for Store
     const [items, setItems] = useState(null)
 
+
+
+    // FETCH ALL DATA
     useEffect(()=>{
-        fetch('https://fakestoreapi.com/products')
+        fetch("https://fakestoreapi.com/products")
         .then(response => response.json())
         .then(data => setItems(data))
     },[])
+
+
+    // FILTER ITEMS IN SEARCHBAR
+
+        // SearchBar states
+    const [searchedValue, setSearchedValue] = useState(null)
+
+        // SearchBar Filteres
+    const [filteredItems, setFilteredItems] = useState([])
+
+    const filteredItemsByTitle = (items, searchedValue) =>{
+        return items?.filter(item => item.title.toLowerCase().includes(searchedValue.toLowerCase()) )
+    }
+
+    useEffect(()=>{
+        if(searchedValue) setFilteredItems( filteredItemsByTitle(items, searchedValue))
+    }, [items, searchedValue])
+
+    
+
+    // FILTER FOR CATEGORY --- FROM THE BTONS ON HEADER
+
+        // category status
+    const [category, setCategory] = useState(null)
+
+        // category filtered
+    const [categorizedItems, setCategorizedItems] = useState([])
+
+    const filteredByCategory = (items,category) => {
+        return items?.filter(item => item.category.toLowerCase().includes(category.toLowerCase()))
+    }
+
+    useEffect(()=>{
+        if(category) setCategorizedItems(filteredByCategory(items, category) )
+    }, [items, category])
+
 
 
 
@@ -85,7 +124,15 @@ export const ShoppingCartProvider = ({children}) => {
             deleteItemfromCart,
 
             items,
-            setItems
+            setItems,
+
+            searchedValue,
+            setSearchedValue,
+
+            filteredItems,
+
+            setCategory,
+            categorizedItems
         
         }} >
             {children}
