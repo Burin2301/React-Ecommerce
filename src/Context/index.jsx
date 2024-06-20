@@ -10,53 +10,6 @@ export const ShoppingCartProvider = ({children}) => {
     //Get Items for Store
     const [items, setItems] = useState(null)
 
-
-
-    // FETCH ALL DATA
-    useEffect(()=>{
-        fetch("https://fakestoreapi.com/products")
-        .then(response => response.json())
-        .then(data => setItems(data))
-    },[])
-
-
-    // FILTER ITEMS IN SEARCHBAR
-
-        // SearchBar states
-    const [searchedValue, setSearchedValue] = useState(null)
-
-        // SearchBar Filteres
-    const [filteredItems, setFilteredItems] = useState([])
-
-    const filteredItemsByTitle = (items, searchedValue) =>{
-        return items?.filter(item => item.title.toLowerCase().includes(searchedValue.toLowerCase()) )
-    }
-
-    useEffect(()=>{
-        if(searchedValue) setFilteredItems( filteredItemsByTitle(items, searchedValue))
-    }, [items, searchedValue])
-
-    
-
-    // FILTER FOR CATEGORY --- FROM THE BTONS ON HEADER
-
-        // category status
-    const [category, setCategory] = useState(null)
-
-        // category filtered
-    const [categorizedItems, setCategorizedItems] = useState([])
-
-    const filteredByCategory = (items,category) => {
-        return items?.filter(item => item.category.toLowerCase().includes(category.toLowerCase()))
-    }
-
-    useEffect(()=>{
-        if(category) setCategorizedItems(filteredByCategory(items, category) )
-    }, [items, category])
-
-
-
-
     // Counts the amount of items in shoppincart
     const [count, setCount] = useState(0)
 
@@ -94,6 +47,82 @@ export const ShoppingCartProvider = ({children}) => {
         setCartProducts(newItems)
     }
 
+
+    // FETCH ALL DATA
+    useEffect(()=>{
+        fetch("https://fakestoreapi.com/products")
+        .then(response => response.json())
+        .then(data => setItems(data))
+    },[])
+
+// --------------------------------------------------------------------------------------------------------------
+
+    
+
+    // SearchBar states
+    const [searchedValue, setSearchedValue] = useState(null)
+
+    // SearchBar Filters
+    const [filteredItems, setFilteredItems] = useState([])
+
+    const filteredItemsByTitle = (items, searchedValue) =>{
+        const searchedText = items?.filter(item => {
+            const titleText = item.title.toLowerCase()
+            const searchedValueText = searchedValue.toLowerCase()
+
+            const textFiltered = titleText.includes(searchedValueText) 
+
+            return textFiltered
+        })
+        return searchedText
+    }
+
+
+
+
+    // category status
+    const [searchedCategory, setSearchedCategory] = useState(null)
+
+    // category filtered
+    const filteredByCategory = (items,searchedCategory) => {
+
+        const categorySearchedText = items?.filter(item => {
+            const categoryText = item.category.toLowerCase()
+            const searchedCategoryText = searchedCategory.toLowerCase()
+
+            const categoryFiltered = categoryText.includes(searchedCategoryText)
+
+            return categoryFiltered
+        })
+
+        
+        return categorySearchedText
+    }
+
+    const filterBy = (searchType, items, searchedValue, searchedCategory) =>{
+        if(searchType=="BY_TITLE"){
+            return filteredItemsByTitle(items, searchedValue)
+        }
+
+        if(searchType=="BY_CATEGORY"){
+            return filteredByCategory(items, searchedCategory)
+        }
+        
+        if(searchType=="BY_TITLE_AND_CATEGORY") {
+            return filteredByCategory(items, searchedCategory).filter(item => item.title.toLowerCase().includes(searchedValue.toLowerCase()))
+        }
+
+        if(!searchType) return items
+
+    }
+
+
+    useEffect(()=>{
+        if( searchedValue && searchedCategory ) setFilteredItems( filterBy("BY_TITLE_AND_CATEGORY", items, searchedValue, searchedCategory))
+        if( searchedValue && !searchedCategory ) setFilteredItems( filterBy("BY_TITLE", items, searchedValue, searchedCategory))
+        if( !searchedValue && searchedCategory ) setFilteredItems( filterBy("BY_CATEGORY", items, searchedValue, searchedCategory))
+        if( !searchedValue && !searchedCategory ) setFilteredItems( filterBy("BY_TITLE_AND_CATEGORY", items, searchedValue, searchedCategory))
+    }, [items, searchedValue, searchedCategory])
  
     return(
         <ShoppingCartContext.Provider
@@ -131,8 +160,7 @@ export const ShoppingCartProvider = ({children}) => {
 
             filteredItems,
 
-            setCategory,
-            categorizedItems
+            setSearchedCategory,
         
         }} >
             {children}

@@ -15,8 +15,8 @@ const AppRoutes = () =>{
     {path:'/', element: <Home />},
     {path:'/electronics', element: <Home />},
     {path:'/jewelery', element: <Home />},
-    {path:`/men's-clothing`, element: <Home />},
-    {path:`/women's-clothing`, element: <Home />},
+    {path:`/men-clothing`, element: <Home />},
+    {path:`/women-clothing`, element: <Home />},
 
 
     {path:'/my-account', element: <MyAccount />},

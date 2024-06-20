@@ -16,10 +16,6 @@ function Navbar () {
         context.openShoppingCart()
     }
 
-    function callCategory(category){
-        context.setCategory(category)
-    }
-
     return(
         <nav
         className="flex justify-between items-center fixed top-0 z-10 w-full py-5 px-8 text-sm font-light bg-white" >
@@ -41,12 +37,7 @@ function Navbar () {
                     <NavLink
                     to='/women-clothing'
                     className={({isActive})=>isActive? activeStyle: undefined}
-                    onClick={()=>{
-                        let text = "women's clothing"
-                        text.replace(/'/g, '').replace(/\s+/g, '-');
-                        callCategory(text)
-                        
-                    }} >
+                    onClick={()=>{ context.setSearchedCategory("women's clothing")}} >
                         {`Women's Clothing`}
                     </NavLink>
                 </li>
@@ -54,7 +45,7 @@ function Navbar () {
                     <NavLink
                     to='/men-clothing'
                     className={({isActive})=>isActive? activeStyle: undefined}
-                    onClick={()=>callCategory("men's clothing")} >
+                    onClick={()=>context.setSearchedCategory("men's clothing")} >
                         {`Men's Clothing`}
                     </NavLink>
                 </li>
@@ -62,7 +53,7 @@ function Navbar () {
                     <NavLink
                     to='/electronics'
                     className={({isActive})=>isActive? activeStyle: undefined}
-                    onClick={()=>callCategory('electronics')} >
+                    onClick={()=>context.setSearchedCategory('electronics')} >
                         Electronics
                     </NavLink>
                 </li>
@@ -70,7 +61,7 @@ function Navbar () {
                     <NavLink
                     to='/jewelery'
                     className={({isActive})=>isActive? activeStyle: undefined}
-                    onClick={()=>callCategory('jewelery')} >
+                    onClick={()=>context.setSearchedCategory('jewelery')} >
                         Jewelery
                     </NavLink>
                 </li>
