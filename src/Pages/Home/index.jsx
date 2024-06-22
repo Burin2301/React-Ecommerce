@@ -14,27 +14,16 @@ function Home(){
    const context = useContext(ShoppingCartContext) 
 
    const renderView = () =>{
-    if (context.searchedValue?.length > 0 ){
-
-        if(context.filteredItems?.length > 0 ){
-            return(
-                context.filteredItems?.map((item)=>(
-                    <Card
-                    key={item.id}
-                    data={item} />
-                ))
-            )
-        }
-        
-    } else {
+    if (context.filteredItems?.length > 0 ){
         return(
-            context.items?.map((item)=>(
+            context.filteredItems?.map((item)=>(
                 <Card
                 key={item.id}
                 data={item} />
-    
             ))
-        )
+        )        
+    } else {
+        "There's nothing here"
     }
    }
 

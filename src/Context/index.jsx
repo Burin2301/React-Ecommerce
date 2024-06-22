@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import { createContext, useEffect, useState } from "react";
+import { createContext,  useEffect, useState } from "react";
 
 
 const ShoppingCartContext = createContext()
@@ -63,19 +63,11 @@ export const ShoppingCartProvider = ({children}) => {
     const [searchedValue, setSearchedValue] = useState(null)
 
     // SearchBar Filters
-    const [filteredItems, setFilteredItems] = useState([])
+    const [filteredItems, setFilteredItems] = useState(null)
 
-    const filteredItemsByTitle = (items, searchedValue) =>{
-        const searchedText = items?.filter(item => {
-            const titleText = item.title.toLowerCase()
-            const searchedValueText = searchedValue.toLowerCase()
-
-            const textFiltered = titleText.includes(searchedValueText) 
-
-            return textFiltered
-        })
-        return searchedText
-    }
+    // const filteredItemsByTitle = (items, searchedValue) => {
+    //     return items?.filter(item => item.title.toLowerCase().includes(searchedValue.toLowerCase()))
+    // }
 
 
 
@@ -84,45 +76,51 @@ export const ShoppingCartProvider = ({children}) => {
     const [searchedCategory, setSearchedCategory] = useState(null)
 
     // category filtered
-    const filteredByCategory = (items,searchedCategory) => {
+    // const filteredItemsByCategory = (items, searchedCategory) => {
+    //     return items?.filter(item => item.category.toLowerCase().includes(searchedCategory.toLowerCase()))
+    //   }
 
-        const categorySearchedText = items?.filter(item => {
-            const categoryText = item.category.toLowerCase()
-            const searchedCategoryText = searchedCategory.toLowerCase()
-
-            const categoryFiltered = categoryText.includes(searchedCategoryText)
-
-            return categoryFiltered
+    
+    const filterBy = (items, searchedValue, searchedCategory) =>{
+        return items.filter((item)=>{
+            item.title.toLowerCase().includes(searchedValue.toLowerCase()) || 
+            item.category.toLowerCase().includes(searchedCategory.toLowerCase())            
         })
-
-        
-        return categorySearchedText
-    }
-
-    const filterBy = (searchType, items, searchedValue, searchedCategory) =>{
-        if(searchType=="BY_TITLE"){
-            return filteredItemsByTitle(items, searchedValue)
-        }
-
-        if(searchType=="BY_CATEGORY"){
-            return filteredByCategory(items, searchedCategory)
-        }
-        
-        if(searchType=="BY_TITLE_AND_CATEGORY") {
-            return filteredByCategory(items, searchedCategory).filter(item => item.title.toLowerCase().includes(searchedValue.toLowerCase()))
-        }
-
-        if(!searchType) return items
-
-    }
-
+    }  
 
     useEffect(()=>{
-        if( searchedValue && searchedCategory ) setFilteredItems( filterBy("BY_TITLE_AND_CATEGORY", items, searchedValue, searchedCategory))
-        if( searchedValue && !searchedCategory ) setFilteredItems( filterBy("BY_TITLE", items, searchedValue, searchedCategory))
-        if( !searchedValue && searchedCategory ) setFilteredItems( filterBy("BY_CATEGORY", items, searchedValue, searchedCategory))
-        if( !searchedValue && !searchedCategory ) setFilteredItems( filterBy("BY_TITLE_AND_CATEGORY", items, searchedValue, searchedCategory))
+        if(searchedValue){
+            setFilteredItems(filterBy(items, searchedValue, searchedCategory))
+        } else {
+            setFilteredItems(items)
+        }
     }, [items, searchedValue, searchedCategory])
+    
+
+    // const filterBy = (searchType, items, searchedValue, searchedCategory) =>{
+    //     if(searchType=="BY_TITLE"){
+    //         return filteredItemsByTitle(items, searchedValue)
+    //     }
+
+    //     if(searchType=="BY_CATEGORY"){
+    //         return filteredItemsByCategory(items, searchedCategory)
+    //     }
+        
+    //     if(searchType=="BY_TITLE_AND_CATEGORY") {
+    //         return filteredItemsByCategory(items, searchedCategory).filter(item => item.title.toLowerCase().includes(searchedValue.toLowerCase()))
+    //     }
+
+    //     if(!searchType) return items
+
+    // }
+
+
+    // useEffect(()=>{
+    //     if( searchedValue && searchedCategory ) setFilteredItems( filterBy("BY_TITLE_AND_CATEGORY", items, searchedValue, searchedCategory))
+    //     if( searchedValue && !searchedCategory ) setFilteredItems( filterBy("BY_TITLE", items, searchedValue, searchedCategory))
+    //     if( !searchedValue && searchedCategory ) setFilteredItems( filterBy("BY_CATEGORY", items, searchedValue, searchedCategory))
+    //     if( !searchedValue && !searchedCategory ) setFilteredItems( filterBy("null", items, searchedValue, searchedCategory))
+    // }, [items, searchedValue, searchedCategory])
  
     return(
         <ShoppingCartContext.Provider
